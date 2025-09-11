@@ -1,0 +1,113 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.border.Border;
+
+public class BusTicketBookingSystem extends JFrame {
+
+    public BusTicketBookingSystem() {
+        setTitle("TOC H Bus Ticket Booking System");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900, 600);
+        setLocationRelativeTo(null);
+
+        // Top navigation bar
+        JPanel navBar = new JPanel(new BorderLayout());
+        navBar.setBackground(Color.WHITE);
+        navBar.setPreferredSize(new Dimension(getWidth(), 80));
+
+        // Logo/Title (Left)
+        JLabel logo = new JLabel("TOC H");
+        logo.setFont(new Font("Arial", Font.BOLD, 32));
+        logo.setForeground(new Color(45, 123, 246));
+        logo.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        navBar.add(logo, BorderLayout.WEST);
+
+        // Navigation options (Right)
+        JPanel navOptions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 25, 25));
+        navOptions.setBackground(Color.WHITE);
+        String[] options = {"Home", "About Us", "Safety"};
+        for (String opt : options) {
+            JLabel navLabel = new JLabel(opt);
+            navLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+            navLabel.setForeground(new Color(51, 51, 51));
+            navOptions.add(navLabel);
+        }
+        JButton signInBtn = new JButton("Sign In");
+        signInBtn.setFont(new Font("Arial", Font.BOLD, 18));
+        signInBtn.setBackground(new Color(45, 123, 246));
+        signInBtn.setForeground(Color.WHITE);
+        signInBtn.setFocusPainted(false);
+        signInBtn.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        signInBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signInBtn.setOpaque(true);
+        signInBtn.setBorder(new RoundedBorder(30));
+        navOptions.add(signInBtn);
+
+        navBar.add(navOptions, BorderLayout.EAST);
+
+        // Main section with gradient background
+        JPanel mainPanel = new GradientPanel();
+        mainPanel.setLayout(null);
+
+        JLabel heading = new JLabel("Bus Ticket Booking Made Easy!");
+        heading.setFont(new Font("Arial", Font.BOLD, 36));
+        heading.setForeground(Color.WHITE);
+        heading.setBounds(60, 80, 700, 50);
+        mainPanel.add(heading);
+
+        JLabel subHeading = new JLabel("<html>Book bus tickets, check schedules, and more—all in one place!</html>");
+        subHeading.setFont(new Font("Arial", Font.PLAIN, 22));
+        subHeading.setForeground(Color.WHITE);
+        subHeading.setBounds(60, 150, 650, 40);
+        mainPanel.add(subHeading);
+
+        JButton bookBtn = new JButton("Book Ticket");
+        bookBtn.setFont(new Font("Arial", Font.BOLD, 22));
+        bookBtn.setBackground(new Color(255, 193, 7)); // Yellow
+        bookBtn.setForeground(new Color(45, 123, 246));
+        bookBtn.setFocusPainted(false);
+        bookBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        bookBtn.setBorder(new RoundedBorder(30));
+        bookBtn.setBounds(60, 220, 180, 55);
+
+        bookBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Next page coming soon!"));
+        mainPanel.add(bookBtn);
+
+        add(navBar, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
+    }
+
+    // Helper class for rounded borders
+    static class RoundedBorder implements Border {
+        private int radius;
+        RoundedBorder(int radius) { this.radius = radius; }
+        public Insets getBorderInsets(Component c) { return new Insets(this.radius+1, this.radius+1, this.radius+2, this.radius); }
+        public boolean isBorderOpaque() { return false; }
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            g.drawRoundRect(x, y, width-1, height-1, radius, radius);
+        }
+    }
+
+    // Gradient panel for background
+    static class GradientPanel extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+            Color color1 = new Color(45, 123, 246);
+            Color color2 = new Color(53, 106, 255);
+            int w = getWidth();
+            int h = getHeight();
+            GradientPaint gp = new GradientPaint(0, 0, color1, w, h, color2);
+            g2d.setPaint(gp);
+            g2d.fillRect(0, 0, w, h);
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new BusTicketBookingSystem().setVisible(true);
+        });
+    }
+}
